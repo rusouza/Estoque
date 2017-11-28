@@ -3,6 +3,8 @@ import {NgForm} from '@angular/forms';
 
 import {ComputadorService} from '../shared/computador.service';
 
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-computador',
   templateUrl: './computador.component.html',
@@ -10,40 +12,42 @@ import {ComputadorService} from '../shared/computador.service';
 })
 export class ComputadorComponent implements OnInit {
 
-  constructor(private computadorService: ComputadorService) { }
+  constructor(private computadorService: ComputadorService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    // this.resetForm();
+    this.resetForm();
   }
 
   onSubmit(form: NgForm) {
-    if (form.value.$key === '') {
-      this.computadorService.inserirComputador(form.value);
+    if (form.value.comupatorId === null) {
+      this.computadorService.inserirComputador(form.value).subscribe(data => {
+        this.resetForm(form);
+        this.computadorService.getData();
+        this.toastr.success('Um Novo Computador foi adicionado com Sucesso', 'Computador Registrado');
+      })
     } else {
-      this.computadorService.atualizarComputador(form.value);
-    }
-    // this.resetForm(form);
-  }
-
-  onDelete(form: NgForm) {
-    if (confirm('Você tem certeza que quer apagar ?') === true) {
-      this.computadorService.apagarComputador(form.value.$key);
+      this.computadorService.atualizarComputador(form.value.EmployeeID, form.value)
+      .subscribe(data => {
+        this.resetForm(form);
+        this.computadorService.getData();
+        this.toastr.info('Computador Atualizado com Sucesso!', 'Computador Registrado');
+      });
     }
   }
 
-  // resetForm(form?: NgForm) {
-  //   if (form != null) {
-  //     form.resetForm();
-  //   }
-  //   this.computadorService.selectedComputador = {
-  //     $key = '',
-  //     marca = '',
-  //     modelo = '',
-  //     placaMae = '',
-  //     memoriaRam = '',
-  //     hd = '',
-  //     processador = ''
-  //   };
-  // }
+  resetForm(form?: NgForm) {
+    if (form != null) {
+      form.resetForm();
+    }
+    this.computadorService.selectedComputador = {
+      computadorId : null,
+      marca : '',
+      modelo : '',
+      placaMae : '',
+      memoriaRam : '',
+      hd : '',
+      processador : ''
+   };
+  }
 
 }

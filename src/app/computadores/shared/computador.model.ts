@@ -1,5 +1,5 @@
 export class Computador {
-  $key: String;
+  computadorId: number;
   marca: String;
   modelo: String;
   placaMae: String;

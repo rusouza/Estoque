@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
+import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
 
 import {Computador} from './computador.model';
 
@@ -7,37 +8,33 @@ import {Computador} from './computador.model';
 export class ComputadorService {
   computadorList: AngularFireList<any>;
   selectedComputador: Computador = new Computador;
-  constructor(private firebase: AngularFireDatabase) { }
+  constructor(private http : Http) { }
 
   getData() {
-    this.computadorList = this.firebase.list('computadores');
-    return this.computadorList;
+    this.http.get('http://localhost:5000/api/Computador').map((data : Response) =>{
+      return data.json() as Computador[];
+    }).toPromise().then(x => {
+      this.computadorList = x;
+    })
   }
 
-  inserirComputador(computador: Computador) {
-    this.computadorList.push({
-      marca: computador.marca,
-      modelo: computador.modelo,
-      placaMae: computador.placaMae,
-      memoriaRam: computador.memoriaRam,
-      hd: computador.hd,
-      processador: computador.processador
-    });
+  inserirComputador(computador : Computador) {
+    var body = JSON.stringify(computador);
+    var headerOptions = new Headers({'Content-Type':'application/json'});
+    var requestOptions = new RequestOptions({method : RequestMethod.Post,headers : headerOptions});
+    return this.http.post('http://localhost:5000/api/Computador',body,requestOptions).map(x => x.json());
   }
 
-  atualizarComputador(computador: Computador) {
-    this.computadorList.update(computador.$key, {
-      marca: computador.marca,
-      modelo: computador.modelo,
-      placaMae: computador.placaMae,
-      memoriaRam: computador.memoriaRam,
-      hd: computador.hd,
-      processador: computador.processador
-    });
+  atualizarComputador(id, computador) {
+    var body = JSON.stringify(computador);
+    var headerOptions = new Headers({ 'Content-Type': 'application/json' });
+    var requestOptions = new RequestOptions({ method: RequestMethod.Put, headers: headerOptions });
+    return this.http.put('http://localhost:5000/api/Computador/' + id,
+      body, requestOptions).map(res => res.json());
   }
 
-  apagarComputador(key: String) {
-    this.computadorList.remove(key);
+  apagarComputador(id: number) {
+    return this.http.delete('http://localhost:5000/api/Computador/' + id).map(res => res.json());
   }
 
 }

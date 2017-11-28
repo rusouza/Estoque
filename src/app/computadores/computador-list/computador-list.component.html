@@ -1,5 +1,12 @@
 <ul class="list-group hover">
   <li class="list-group-item" *ngFor="let computador of listaComputador" (click)="onItemClick(computador)">
     {{computador.marca}} - {{computador.modelo}}
+
+    <a class="btn" (click)="showForEdit(computador)">
+      <i class="fa fa-pencil-square-o"></i>
+    </a>
+    <a class="btn text-danger" (click)="onDelete(computador.computadorId)">
+      <i class="fa fa-trash-o"></i>
+    </a>
   </li>
 </ul>
