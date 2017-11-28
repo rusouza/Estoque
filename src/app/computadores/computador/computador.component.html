@@ -1,3 +1,33 @@
-<p>
-  computador works!
-</p>
+<form #computadorForm="ngForm" (ngSubmit)="onSubmit(computadorForm)">
+  <input type="hidden" name="$key" #$key="ngModel" [(ngModel)]="computadorService.selectedComputador.$key">
+  <div class="form-group">
+    <label>Marca</label>
+    <input class="form-control" name="marca" #name="ngModel" [(ngModel)]="computadorService.selectedComputador.marca" required>
+  </div>
+  <div class="form-group">
+    <label>Modelo</label>
+    <input class="form-control" name="modelo" #name="ngModel" [(ngModel)]="computadorService.selectedComputador.modelo">
+  </div>
+  <div class="form-group">
+    <label>Placa-Mãe</label>
+    <input class="form-control" name="placaMae" #name="ngModel" [(ngModel)]="computadorService.selectedComputador.placaMae">
+  </div>
+  <div class="form-group">
+    <label>Memoria RAM</label>
+    <input class="form-control" name="memoriaRam" #name="ngModel" [(ngModel)]="computadorService.selectedComputador.memoriaRam">
+  </div>
+  <div class="form-group">
+    <label>HD</label>
+    <input class="form-control" name="hd" #name="ngModel" [(ngModel)]="computadorService.selectedComputador.hd">
+  </div>
+  <div class="form-group">
+    <label>Processador</label>
+    <input class="form-control" name="processador" #name="ngModel" [(ngModel)]="computadorService.selectedComputador.processador">
+  </div>
+
+  <div class="form-group">
+    <button type="submit" class="btn btn-default" [disabled]="!computadorForm.valid"> <i class="fa fa-floppy-o"></i> Enviar</button>
+    <button type="button" class="btn btn-default" *ngIf="computadorService.selectedComputador.$key != null" (click)="onDelete(computadorForm)"> <i class="fa fa-trash"></i> Deletar</button>
+    <button type="button" class="btn btn-default"> <i class="fa fa-repeat" (resetForm)="(computadorForm)"></i> Limpar</button>
+  </div>
+</form>

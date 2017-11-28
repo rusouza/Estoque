@@ -1,3 +1,5 @@
-<p>
-  computador-list works!
-</p>
+<ul class="list-group hover">
+  <li class="list-group-item" *ngFor="let computador of listaComputador" (click)="onItemClick(computador)">
+    {{computador.marca}} - {{computador.modelo}}
+  </li>
+</ul>
