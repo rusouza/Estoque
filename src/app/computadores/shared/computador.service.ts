@@ -8,10 +8,10 @@ import {Computador} from './computador.model';
 export class ComputadorService {
   computadorList: Computador[];
   selectedComputador: Computador = new Computador;
-  constructor(private http : Http) { }
+  constructor(private http: Http) { }
 
   getData() {
-    this.http.get('http://localhost:5000/api/Computador').map((data : Response) =>{
+    this.http.get('http://localhost:5000/api/Computador').map((data: Response) => {
       return data.json() as Computador[];
     }).toPromise().then(x => {
       this.computadorList = x;
@@ -20,7 +20,7 @@ export class ComputadorService {
 
   inserirComputador(computador: Computador) {
     var body = JSON.stringify(computador);
-    var headerOptions = new Headers({'Content-Type':'application/json'});
+    var headerOptions = new Headers({'Content-Type': 'application/json'});
     var requestOptions = new RequestOptions({method : RequestMethod.Post, headers: headerOptions});
     return this.http.post('http://localhost:5000/api/Computador', body, requestOptions).map(x => x.json());
   }
