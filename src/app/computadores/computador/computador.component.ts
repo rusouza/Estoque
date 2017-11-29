@@ -24,9 +24,9 @@ export class ComputadorComponent implements OnInit {
         this.resetForm(form);
         this.computadorService.getData();
         this.toastr.success('Um Novo Computador foi adicionado com Sucesso', 'Computador Registrado');
-      })
+      });
     } else {
-      this.computadorService.atualizarComputador(form.value.EmployeeID, form.value)
+      this.computadorService.atualizarComputador(form.value.comupatorId, form.value)
       .subscribe(data => {
         this.resetForm(form);
         this.computadorService.getData();

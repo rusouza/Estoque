@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ComputadorListComponent implements OnInit {
   listaComputador: Computador[];
-  constructor(private computadorService: ComputadorService,private toastr : ToastrService) { }
+  constructor(private computadorService: ComputadorService, private toastr: ToastrService) { }
 
   ngOnInit() {
     this.computadorService.getData();
@@ -22,13 +22,17 @@ export class ComputadorListComponent implements OnInit {
     this.computadorService.selectedComputador = Object.assign({}, computador);
   }
 
+  showForEdit(computador: Computador) {
+    this.computadorService.selectedComputador = Object.assign({}, computador);
+  }
+
   onDelete(id: number) {
     if (confirm('Você tem certeza que deseja apagar ?') == true) {
       this.computadorService.apagarComputador(id)
       .subscribe(x => {
         this.computadorService.getData();
-        this.toastr.warning("Computador Apagado com Sucesso!", "Computador Registrado");
-      })
+        this.toastr.warning('Computador Apagado com Sucesso!', 'Computador Registrado');
+      });
     }
   }
 

@@ -6,7 +6,7 @@ import {Computador} from './computador.model';
 
 @Injectable()
 export class ComputadorService {
-  computadorList: AngularFireList<any>;
+  computadorList: Computador[];
   selectedComputador: Computador = new Computador;
   constructor(private http : Http) { }
 
@@ -15,14 +15,14 @@ export class ComputadorService {
       return data.json() as Computador[];
     }).toPromise().then(x => {
       this.computadorList = x;
-    })
+    });
   }
 
-  inserirComputador(computador : Computador) {
+  inserirComputador(computador: Computador) {
     var body = JSON.stringify(computador);
     var headerOptions = new Headers({'Content-Type':'application/json'});
-    var requestOptions = new RequestOptions({method : RequestMethod.Post,headers : headerOptions});
-    return this.http.post('http://localhost:5000/api/Computador',body,requestOptions).map(x => x.json());
+    var requestOptions = new RequestOptions({method : RequestMethod.Post, headers: headerOptions});
+    return this.http.post('http://localhost:5000/api/Computador', body, requestOptions).map(x => x.json());
   }
 
   atualizarComputador(id, computador) {
